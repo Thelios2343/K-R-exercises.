@@ -14,8 +14,7 @@ double pop(void);
 int getch(void);
 void ungetch(int c);
 
-int main(void)
-{
+int main() {
     int type;
     double op2;
     char s[MAXOP];
