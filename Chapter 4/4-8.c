@@ -8,7 +8,7 @@
 #define NUMBER '0'  
 #define VARIABLE 'v' 
 #define ASIGNAR '='  
-#define BUFSIZE 100  
+#define BUFSIZE 1 
 
 int getch(void);
 void ungetch(int);
