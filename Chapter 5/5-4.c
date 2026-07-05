@@ -9,6 +9,8 @@ int main () {
     char t[100] = "ma";
 
    printf("%d\n", strend(s, t) );
+
+    return 0;
 }
 
 int str_len(char *s) {
