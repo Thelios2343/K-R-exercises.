@@ -24,6 +24,8 @@ int main () {
     printf("\nTu ascii a entero es: %d",atoi(a));
     printf("\nTu entero a ascii es: %s", sgr);
     printf("\nEn la cadena: %s. está la cadena: %s. inciando en la posicion: %d del arreglo\n", asv, litio, strindex(asv, litio));
+
+    return 0;
 }
 
 
