@@ -2,11 +2,14 @@
 
 int day_of_year(int year, int month, int day);
 int month_day(int year, int yearday, int *pmonth, int *pday);
+int is_leap(int year);
 
 static char daytab[2][13] = {
     {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
     {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
 };
+
+static char (*dayptr)[13] = daytab;
 
 int main () {
 
@@ -26,13 +29,13 @@ int day_of_year(int year, int month, int day) {
 
     if (year < 1) return -1;
 
-    leap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    leap = is_leap(year);
 
     if (month < 1 || month > 12) return -1;
-    if (day < 1 || day > daytab[leap][month]) return -1;
+    if (day < 1 || day > dayptr[leap][month]) return -1;
 
     for (i = 1; i < month; i++) {
-        day += daytab[leap][i];
+        day += dayptr[leap][i];
     }
 
     return day;
@@ -43,17 +46,22 @@ int month_day(int year, int yearday, int *pmonth, int *pday) {
 
     if (year < 1) return -1;
 
-    leap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    leap = is_leap(year); 
 
     if (yearday < 1 || yearday > (leap ? 366 : 365)) {
         return -1;
     }
 
-    for (i = 1; yearday > daytab[leap][i]; i++) {
-        yearday -= daytab[leap][i];
+    for (i = 1; yearday > dayptr[leap][i]; i++) {
+        yearday -= dayptr[leap][i];
     }
 
     *pmonth = i;
     *pday = yearday;
     return 0;
+}
+
+int is_leap(int year) {
+    return (year % 4 == 0 && year % 100 != 0) ||
+           (year % 400 == 0);    
 }
