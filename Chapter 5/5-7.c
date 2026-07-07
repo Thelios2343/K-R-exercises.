@@ -5,26 +5,43 @@
 #define MAXLEN 1000
 #define MAXSTORAGE (MAXLINES * MAXLEN)
 
-char *lineptr[MAXLEN];
+char *lineptr[MAXLINES];
 
 int readlines(char *lineptr[], int nlines, char *storage);
 void writelines(char *lineptr[], int nlines);
 void qsort(char *lineptr[], int left, int right);
 int get_line(char s[], int lim);
 
-int main () {
-    int nlines;  
-    char storage[MAXSTORAGE];  
+int main() {
+    char storage[MAXSTORAGE];
+    char *lineptr[MAXLINES];
+    char *pruebas[] = {
+        "Alo",
+        "Bao",
+        "Cap",
+        "lucho",
+        "kerry",
+        "niggers",
+        "i hate jews"
+    };
 
-    if ((nlines = readlines(lineptr, MAXLINES, storage)) >= 0) {
-        qsort(lineptr, 0, nlines - 1);
-        writelines(lineptr, nlines);
-        printf("%s", storage);
-        return 0;
-    } else {
-        printf("error: entrada demasiado grande para ordenar\n");
-        return 1;
+    int nlines = sizeof(pruebas) / sizeof(pruebas[0]);
+    char *p = storage;
+
+    for (int i = 0; i < nlines; i++) {
+        strcpy(p, pruebas[i]);
+        lineptr[i] = p;
+        p += strlen(pruebas[i]) + 1;  
     }
+
+    printf("Antes de ordenar:\n");
+    writelines(lineptr, nlines);
+
+    qsort(lineptr, 0, nlines - 1);
+
+    printf("\nDespues de ordenar:\n");
+    writelines(lineptr, nlines);
+
     return 0;
 }
 
@@ -35,7 +52,7 @@ int readlines(char *lineptr[], int maxlines, char *storage) {
     char *end = (storage + MAXSTORAGE) - 1;
 
     while ((len = get_line(line, MAXLEN)) > 0) {
-        if (nlines >= maxlines || p + len - 1 > end) {
+        if (nlines >= maxlines || p + len > end) {
             return -1;
         }
         else {
