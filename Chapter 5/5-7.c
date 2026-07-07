@@ -21,8 +21,8 @@ int main() {
         "Cap",
         "lucho",
         "kerry",
-        "niggers",
-        "i hate jews"
+        "nice",
+        "i hate Cpp"
     };
 
     int nlines = sizeof(pruebas) / sizeof(pruebas[0]);
