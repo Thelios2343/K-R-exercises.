@@ -152,7 +152,7 @@ int get_line(char s[], int lim) {
 
 int tolower(int c) {
     if (c >= 'A' && c <= 'Z') {
-        return c |= 0x20;
+        return c |= ~0x20;
     }
 
     return c;
