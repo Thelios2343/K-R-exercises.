@@ -314,7 +314,7 @@ void print (tnode *p) {
     }
     print(p -> left);
 
-    printf("Base word of the group %s: ", p -> base_word);
+    printf("\nBase word of the group %s: ", p -> base_word);
     print_words(p -> nword);
     printf("\n");
     
@@ -359,12 +359,17 @@ int main (int argc, char *argv[]) {
     int start_char;
     root = NULL;
 
-     if (argc != 2) {
-        printf("Use: %s number: x\n", argv[0]);
-        return 1;
+     if (argc == 1) {
+         cond_input = 6;
+     }    
+
+     else {
+         cond_input = atoi(argv[1]);
+         if (argc > 2) {
+             printf("Use Of The Program %s: %s Number.", argv[0], argv[0]);
+         }
      }
 
-    cond_input = atoi(argv[1]);
     if (cond_input < 0) {
         printf("Error: el numero debe ser >= 0\n");
         return 1;
