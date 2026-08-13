@@ -269,10 +269,10 @@ void split(struct node *source, struct node **front, struct node **back) {
     }
 
     slow = source;
-    fast = source->next;
+    fast = source -> next;
 
     while (fast != NULL) {
-        fast = fast->next;
+        fast = fast -> next;
 
         if (fast != NULL) {
             slow = slow->next;
@@ -283,7 +283,7 @@ void split(struct node *source, struct node **front, struct node **back) {
     *front = source;
     *back = slow->next;
 
-    slow->next = NULL;
+    slow -> next = NULL;
 }
 
 struct node *mergesort(struct node *head) {
