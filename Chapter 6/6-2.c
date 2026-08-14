@@ -4,7 +4,7 @@
 #include <ctype.h>
 
 #define MAXARRAY 100
-#define BUFSIZE 100000000
+#define BUFSIZE 100
 #define MAXWORD 1000
 
 char buf[BUFSIZE];
@@ -227,6 +227,11 @@ void browse (node **p, const char *w ) {
 
     if (q == NULL) {
         *p = new_node();
+
+        if (p == NULL) {
+            return;
+        }
+
         (*p) -> word = strdup(w);
         (*p) -> next = NULL;
         return;
@@ -381,10 +386,9 @@ int main (int argc, char *argv[]) {
             if (getvar(word) == 1) {
                 int c;
                 while ((c = getword(word, MAXWORD)) != EOF) {
-                    if (isalpha(c) || c == '_') {
+                    if (isalpha(c) || c == '_') { 
                         root = addtree(root, word);
 
-                        
                         if (root == NULL) {
                             fprintf(stderr, "Error: memoria insuficiente\n");
                             return 1;
