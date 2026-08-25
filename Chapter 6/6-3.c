@@ -25,13 +25,12 @@ const char *stop_words[] = {
     "of", "on", "or", "that", "the", "this", "to", "was",
     "we", "were", "will", "with", "you", "your", "i", "not"
 };
-#define N_STOP_WORDS (sizeof(stop_words) / sizeof(stop_words[0]))
+size_t n_stop_words = sizeof(stop_words) / sizeof(stop_words[0]) ;
 
 char buf[BUFSIZE];
 int bufp = 0;
 
 /* Funciones del lexer sencillo */
-void newline(char c);
 int getword(char *s, int lim);
 void ungetch(int c);
 int getch(void);
@@ -43,12 +42,6 @@ Tnode *talloc(void);
 
 
 static int nline = 1;
-
-void newline(char c) {
-    if (c == '\n') {
-        ++nline;
-    }
-}
 
 int getword(char *s, int lim) {
     int c, d;
@@ -139,7 +132,7 @@ void ungetch(int c) {
 int getstop(char *s) {
     int i;
 
-    for (i = 0; i < N_STOP_WORDS; i++) {
+    for (i = 0; i < n_stop_words; i++) {
         if(!strcmp(s, stop_words[i])) {
             return 1;
         }
