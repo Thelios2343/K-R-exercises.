@@ -109,7 +109,7 @@ int getword(char *word, int lim) {
     int c;
     char *w = word;
 
-    /* Saltar espacios/saltos de linea, contando cada '\n' UNA sola vez */
+    /* Saltar espacios/saltos de linea, contando cada '\n' */
     while (isspace(c = getch())) {
         if (c == '\n') {
             ++nol;
@@ -125,15 +125,13 @@ int getword(char *word, int lim) {
         return c;
     }
 
-    /* Se usa una variable int (no char) para evitar problemas de signo
-       al llamar isalnum con bytes >127 (p.ej. tildes en UTF-8) */
     for (; --lim > 0; w++) {
         c = getch();
-        if (!isalnum((unsigned char)c)) {
-            ungetch(c);   /* se cuenta la próxima vez que se lea, en el skip de arriba */
+        if (!isalnum(c)) {
+            ungetch(c);   
             break;
         }
-        *w = (char)c;
+        *w = c;
     }
     *w = '\0';
     return word[0];
