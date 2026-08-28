@@ -1,0 +1,10 @@
+Este es un texto de prueba para probar un programa que procesa palabras. El programa debe ser capaz de encontrar las palabras que aparecen en el texto y también debe ignorar las palabras que no son importantes.
+
+En este texto hay muchas palabras repetidas, porque las palabras repetidas sirven para comprobar si el programa cuenta correctamente cada aparición. También hay palabras como el, la, los, las, un, una, y, o, de, del, al, en, por, para, con, que, se, es, son, como, pero, si, no.
+
+El objetivo de esta prueba es verificar que el programa funciona correctamente y que no pierde palabras cuando recorre el texto. Si el programa encuentra una palabra varias veces, debe poder identificar todas sus apariciones.
+
+Además, este texto contiene MAYÚSCULAS, minúsculas, palabras repetidas y signos de puntuación. Las palabras importantes aparecen varias veces: árbol, árbol, árbol, memoria, memoria, lista, lista, programa, programa.
+
+Por último, el programa debe liberar toda la memoria que haya reservado después de terminar de procesar el texto.
+
