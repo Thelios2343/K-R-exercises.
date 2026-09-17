@@ -156,7 +156,7 @@ int getword(char *str, int lim) {
 }
 
 
-int main(void) {
+int main() {
     char hh[MAXWORD];
     int n = 0;
     int readed;
