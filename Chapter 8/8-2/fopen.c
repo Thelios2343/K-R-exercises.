@@ -1,6 +1,4 @@
-#include <fcntl.h>
 #include "fp.h"
-#include <unistd.h>
 
 FILE _iob[OPEN_MAX] = {
     { NULL, 0, NULL, 1, 0, 0, 0, 0, 0 },  /* input  */

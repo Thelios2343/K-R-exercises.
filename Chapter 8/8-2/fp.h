@@ -20,7 +20,7 @@ typedef struct _iobuf {
 
 extern FILE _iob[OPEN_MAX];
 
-enum _flags { READ_ONLY, WRITE_ONLU, READ_WRITE };
+enum _flags { READ_ONLY, WRITE_ONLY, READ_WRITE };
 
 int _fillbuf(FILE *);
 int _flushbuf(int, FILE *);
