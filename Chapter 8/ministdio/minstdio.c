@@ -7,6 +7,7 @@ int _fillbuf(FILE *p);
 int fflush(FILE *f);
 int fputc(int c, FILE *f);
 int fclose(FILE *f);
+off_t fseek(FILE *fp, long offset, int origin);
 
 FILE _iob[OPEN_MAX] = {
     { NULL, 0, NULL, 1, 0, 0, 0, 0, 0 },  /* input  */
@@ -60,20 +61,20 @@ FILE *f_open(char *name, char *mode) {
 int _fillbuf(FILE *fp) {
     int bufsize;
 
-    if (!fp->read || fp->eof || fp->err)
+    if (!fp -> read || fp -> eof || fp -> err)
         return EOF;
 
-    while ((fp->base == NULL) && bufsize == 0)
-        bufsize = fp->unbuf ? 1 : BUFSIZ;
+    while ((fp -> base == NULL) && bufsize == 0)
+        bufsize = fp -> unbuf ? 1 : BUFSIZ;
 
-    if (fp->base == NULL) {
-        bufsize = fp->unbuf ? 1 : BUFSIZ;
-        if ((fp->base = malloc(bufsize)) == NULL)
+    if (fp -> base == NULL) {
+        bufsize = fp -> unbuf ? 1 : BUFSIZ;
+        if ((fp -> base = malloc(bufsize)) == NULL)
             return EOF;
     }
 
-    fp->ptr = fp->base;
-    fp->cnt = read(fp->fd, fp->ptr, bufsize);
+    fp -> ptr = fp -> base;
+    fp -> cnt = read(fp -> fd, fp -> ptr, bufsize);
 
     if (fp->cnt <= 0) {
         if (fp->cnt == 0)
@@ -131,4 +132,19 @@ int fclose(FILE *fp) {
     free(fp);
 
     return result;
+}
+
+off_t fseek(FILE *fp, long offset, int origin) {
+    if (fp -> read) {
+        if(fflush(fp) == EOF)
+            return EOF;
+    }
+
+    if (lseek(fp -> fd, offset, origin) == (off_t)-1) 
+        return EOF;
+    
+    fp -> ptr = fp -> base;
+    fp -> cnt = 0;
+
+    return 0;
 }
