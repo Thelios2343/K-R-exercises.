@@ -1,6 +1,6 @@
 #include <unistd.h>
-#include <fcntl.h>
 #include <stdlib.h>
+
 #define OPEN_MAX 20
 #define BUFSIZ 1024
 #define EOF (-1) 
@@ -20,7 +20,7 @@ typedef struct _iobuf {
 
 extern FILE _iob[OPEN_MAX];
 
-enum _flags { READ_ONLY, WRITE_ONLY, READ_WRITE };
+enum _flags { MODE_READ, MODE_WRITE, MODE_READ_WRITE };
 
 int _fillbuf(FILE *);
 int _flushbuf(int, FILE *);
@@ -31,4 +31,10 @@ int _flushbuf(int, FILE *);
 
 #define getc(p) ((p) -> cnt-- > 0\
         ? (unsigned char) *(p)->ptr++\
-        : _fillbuf(p)) 
+        : _fillbuf(p))
+
+#define putc(x, p) \
+    (--(p)->cnt >= 0 \
+    ? *(p)->ptr++ = (x) \
+     : _flushbuf((x), (p)))
+
