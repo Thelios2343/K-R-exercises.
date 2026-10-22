@@ -1,13 +1,14 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #define MAXBYTES (1u << 30) /*Esto es un GiB*/
 #define NALLOC 1024
 #define MAGIC ((Header *) (uintptr_t)0xDEADBEEF)
 
-void *malloc(size_t n);
-void free(void *ap);
+void *my_malloc(size_t n);
+void my_free(void *ap);
 
 typedef long Align;
 
@@ -29,9 +30,10 @@ static void err(const char *msg) {
     size_t n = 0;
     while (msg[n]) n++;
     write(2, msg, n);
+    abort();
 }
 
-void *malloc (size_t n) {
+void *my_malloc (size_t n) {
     Header *p, *prevp;
     Header *morecore(unsigned);
     unsigned int nunits;
@@ -76,32 +78,32 @@ Header *morecore(unsigned nu) {
 
     up = (Header *) cp;
     up -> s.size = nu;
-    free((void *) (up + 1));
+    my_free((void *) (up + 1));
     return freep;
 }
 
-void free(void *ap) {
+void my_free(void *ap) {
     Header *bp, *p;
 
     if (ap == NULL)
         return;
     if ((uintptr_t)ap % sizeof(Header) != 0) {
-        err("Free: pointer no aliened");
+        err("my_free: pointer no aliened");
         return;
     }
 
     bp = (Header *) ap -1;
     
     if ((char *) bp < heap_lo || (char *) (bp + 1) > heap_hi) {
-        err("Free: Pointer out of heap limits");
+        err("my_free: Pointer out of heap limits");
         return;
     } 
     if (bp -> s.ptr != MAGIC) {
-        err("Free: double free or invalid pointer");
+        err("my_free: double my_free or invalid pointer");
         return;
     }
     if (bp -> s.size < 2 || (char *)(bp + bp -> s.size) > heap_hi) {
-        err("Free: size camp corrupted");
+        err("my_free: size camp corrupted");
         return;
     }
 
@@ -123,12 +125,12 @@ void free(void *ap) {
 }
 
 int main () {
-    char *a = malloc(100);
-    free(a);
-    free(a);
-    free(NULL);
+    char *a = my_malloc(100);
+    my_free(a);
+    my_free(a);
+    my_free(NULL);
     int x;
-    free(&x);
-    malloc(0);
+    my_free(&x);
+    my_malloc(0);
     return 0;
 }
