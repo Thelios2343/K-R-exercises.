@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdint.h>
 #include <stddef.h>
 #include <unistd.h>
@@ -6,7 +7,6 @@
 #define MAXBYTES (1u << 30) /*Esto es un GiB*/
 #define NALLOC 1024
 #define MAGIC ((Header *) (uintptr_t)0xDEADBEEF)
-#
 
 void *my_malloc(size_t n);
 void my_free(void *ap);
@@ -44,6 +44,7 @@ void *my_malloc (size_t n) {
         base.s.ptr = freep = prevp = &base;
         base.s.size = 0;
     }
+
     for (p = prevp -> s.ptr; ; prevp = p, p = p->s.ptr) {
         if (p -> s.size >= nunits) {
             if (p -> s.size == nunits)
@@ -123,6 +124,22 @@ void my_free(void *ap) {
         p -> s.ptr = bp;
 
     freep = p;
+}
+
+void bfree(void *p, size_t n) {
+    uintptr_t addr = (uintptr_t)p;
+    size_t adj = (sizeof(Header) - addr % sizeof(Header)) % sizeof (Header);
+    if (n < adj) return;
+    n -= adj;
+
+    size_t units = n / sizeof(Header);
+    if (units < 2) return;
+
+    Header *b = (Header *) (addr + adj);
+    b -> s.size = units;
+    my_free(b+1);
+
+   
 }
 
 int main () {

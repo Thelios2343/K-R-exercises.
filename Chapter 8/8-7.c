@@ -6,6 +6,7 @@
 #define MAXBYTES (1u << 30) /*Esto es un GiB*/
 #define NALLOC 1024
 #define MAGIC ((Header *) (uintptr_t)0xDEADBEEF)
+#
 
 void *my_malloc(size_t n);
 void my_free(void *ap);
@@ -38,7 +39,7 @@ void *my_malloc (size_t n) {
     Header *morecore(unsigned);
     unsigned int nunits;
 
-    nunits = (n+sizeof(Header)-1)/sizeof (Header) + 1;
+    nunits = (n + sizeof(Header) - 1)/sizeof (Header) + 1;
     if ((prevp = freep) == NULL) {
         base.s.ptr = freep = prevp = &base;
         base.s.size = 0;
